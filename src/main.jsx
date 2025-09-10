@@ -5,7 +5,7 @@ import App from './App.jsx'
 import axios from 'axios'
 
 // Configure axios base URL
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://mytube-b-j4ny.onrender.com';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

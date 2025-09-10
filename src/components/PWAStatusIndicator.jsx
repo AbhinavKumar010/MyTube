@@ -47,3 +47,4 @@ const PWAStatusIndicator = () => {
 };
 
 export default PWAStatusIndicator;
+

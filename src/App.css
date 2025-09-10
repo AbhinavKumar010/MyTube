@@ -1,0 +1,527 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Video player responsive */
+.react-player {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Custom button styles */
+.MuiButton-root {
+  text-transform: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiButton-root:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+/* Custom card hover effects */
+.MuiCard-root {
+  transition: all 0.2s ease-in-out;
+}
+
+.MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom input styles */
+.MuiTextField-root .MuiOutlinedInput-root {
+  border-radius: 8px;
+}
+
+/* Custom chip styles */
+.MuiChip-root {
+  border-radius: 16px;
+}
+
+/* Custom tab styles */
+.MuiTabs-root .MuiTab-root {
+  text-transform: none;
+  font-weight: 500;
+}
+
+/* Custom paper styles */
+.MuiPaper-root {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiPaper-root:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+}
+
+/* Loading spinner */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+/* Error message */
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+/* Success message */
+.success-message {
+  text-align: center;
+  padding: 2rem;
+  color: #4caf50;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 600px) {
+  .MuiContainer-root {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  
+  .MuiCard-root {
+    margin-bottom: 8px;
+  }
+  
+  .MuiButton-root {
+    min-width: auto !important;
+  }
+  
+  .MuiChip-root {
+    font-size: 0.7rem;
+    height: 24px;
+  }
+  
+  .MuiTypography-h6 {
+    font-size: 1rem !important;
+  }
+  
+  .MuiTypography-h5 {
+    font-size: 1.1rem !important;
+  }
+  
+  .MuiTypography-h4 {
+    font-size: 1.3rem !important;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .MuiButton-root {
+    min-height: 44px;
+  }
+  
+  .MuiIconButton-root {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .MuiChip-root {
+    min-height: 32px;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 900px) and (orientation: landscape) {
+  .react-player {
+    height: 200px !important;
+  }
+}
+
+/* Mobile bottom navigation spacing */
+@media (max-width: 900px) {
+  .App {
+    padding-bottom: 70px !important;
+  }
+  
+  .MuiContainer-root {
+    padding-bottom: 80px !important;
+  }
+}
+
+/* Enhanced mobile video player */
+@media (max-width: 600px) {
+  .video-controls {
+    padding: 8px !important;
+  }
+  
+  .MuiSlider-root {
+    height: 6px !important;
+  }
+  
+  .MuiSlider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+/* Mobile drawer enhancements */
+.MuiDrawer-paper {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+}
+
+/* Mobile video card enhancements */
+@media (max-width: 600px) {
+  .MuiCard-root {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  }
+  
+  .MuiCard-root:active {
+    transform: scale(0.98) !important;
+  }
+}
+
+/* Mobile button enhancements */
+@media (max-width: 600px) {
+  .MuiButton-root {
+    min-height: 48px !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .MuiIconButton-root {
+    min-height: 48px !important;
+    min-width: 48px !important;
+  }
+}
+
+/* Mobile typography improvements */
+@media (max-width: 600px) {
+  .MuiTypography-h1 {
+    font-size: 1.8rem !important;
+  }
+  
+  .MuiTypography-h2 {
+    font-size: 1.6rem !important;
+  }
+  
+  .MuiTypography-h3 {
+    font-size: 1.4rem !important;
+  }
+  
+  .MuiTypography-h4 {
+    font-size: 1.2rem !important;
+  }
+  
+  .MuiTypography-h5 {
+    font-size: 1.1rem !important;
+  }
+  
+  .MuiTypography-h6 {
+    font-size: 1rem !important;
+  }
+}
+
+/* Mobile grid improvements */
+@media (max-width: 600px) {
+  .MuiGrid-container {
+    margin: 0 !important;
+  }
+  
+  .MuiGrid-item {
+    padding: 4px !important;
+  }
+}
+
+/* Mobile search improvements */
+@media (max-width: 600px) {
+  .MuiTextField-root {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+}
+
+/* PWA Specific Styles */
+/* Hide scrollbars in PWA mode */
+@media (display-mode: standalone) {
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+  }
+  
+  /* PWA status bar styling */
+  .MuiAppBar-root {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  /* PWA bottom navigation */
+  .MuiBottomNavigation-root {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* PWA splash screen styling */
+.pwa-splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 9999;
+}
+
+.pwa-splash .logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* PWA install banner */
+.pwa-install-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+  color: white;
+  padding: 16px;
+  z-index: 1000;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.pwa-install-banner.show {
+  transform: translateY(0);
+}
+
+/* PWA offline indicator */
+.offline-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ff6b6b;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  z-index: 1001;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+}
+
+.offline-indicator.show {
+  transform: translateY(0);
+}
+
+/* PWA loading spinner */
+.pwa-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f5f5f5;
+}
+
+.pwa-loading .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #ff0000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* PWA safe area handling */
+@supports (padding: max(0px)) {
+  .pwa-safe-area-top {
+    padding-top: max(20px, env(safe-area-inset-top));
+  }
+  
+  .pwa-safe-area-bottom {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+  
+  .pwa-safe-area-left {
+    padding-left: max(20px, env(safe-area-inset-left));
+  }
+  
+  .pwa-safe-area-right {
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+}
+
+/* PWA touch feedback */
+.pwa-touchable {
+  -webkit-tap-highlight-color: rgba(255, 0, 0, 0.1);
+  touch-action: manipulation;
+}
+
+/* PWA fullscreen video */
+.pwa-video-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: black;
+}
+
+/* PWA notification styles */
+.pwa-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 16px;
+  max-width: 300px;
+  z-index: 1002;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.pwa-notification.show {
+  transform: translateX(0);
+}
+
+/* Beautiful animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply animations to components */
+.MuiCard-root {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.MuiButton-root {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.MuiPaper-root {
+  animation: slideInRight 0.5s ease-out;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus states */
+.MuiButton-root:focus,
+.MuiIconButton-root:focus,
+.MuiChip-root:focus {
+  outline: 2px solid #ff0000;
+  outline-offset: 2px;
+}
+
+/* Improved text rendering */
+* {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Better mobile touch targets */
+@media (max-width: 600px) {
+  .MuiButton-root {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  .MuiIconButton-root {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  .MuiChip-root {
+    min-height: 40px;
+  }
+}

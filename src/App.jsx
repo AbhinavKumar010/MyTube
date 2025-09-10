@@ -26,6 +26,7 @@ import ChannelAnalytics from './pages/ChannelAnalytics';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 import OfflinePage from './components/OfflinePage';
 import PWAStatusIndicator from './components/PWAStatusIndicator';
+import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
 const theme = createTheme({
@@ -50,46 +51,48 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <PWAProvider>
-        <AuthProvider>
-          <VideoProvider>
-            <NotificationProvider>
-              <Router>
-                <div className="App">
-                  <Navbar />
-                  <Box sx={{ 
-                    flexGrow: 1,
-                    pb: { xs: 8, md: 0 },
-                    minHeight: 'calc(100vh - 64px)'
-                  }}>
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/trending" element={<Trending />} />
-                      <Route path="/subscriptions" element={<Subscriptions />} />
-                      <Route path="/video/:id" element={<VideoPlayer />} />
-                      <Route path="/channel/:id" element={<Channel />} />
-                      <Route path="/upload" element={<Upload />} />
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/register" element={<Register />} />
-                      <Route path="/search" element={<Search />} />
-                      <Route path="/library" element={<Library />} />
-                      <Route path="/playlists" element={<Playlists />} />
-                      <Route path="/profile" element={<Profile />} />
-                      <Route path="/create-channel" element={<CreateChannel />} />
-                      <Route path="/channel-management" element={<ChannelManagement />} />
-                      <Route path="/channel/:id/analytics" element={<ChannelAnalytics />} />
-                      <Route path="/offline" element={<OfflinePage />} />
-                    </Routes>
-                  </Box>
-                  <MobileBottomNav />
-                  <PWAInstallPrompt />
-                  <PWAStatusIndicator />
-                </div>
-              </Router>
-            </NotificationProvider>
-          </VideoProvider>
-        </AuthProvider>
-      </PWAProvider>
+      <ErrorBoundary>
+        <PWAProvider>
+          <AuthProvider>
+            <VideoProvider>
+              <NotificationProvider>
+                <Router>
+                  <div className="App">
+                    <Navbar />
+                    <Box sx={{
+                      flexGrow: 1,
+                      pb: { xs: 8, md: 0 },
+                      minHeight: 'calc(100vh - 64px)'
+                    }}>
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/trending" element={<Trending />} />
+                        <Route path="/subscriptions" element={<Subscriptions />} />
+                        <Route path="/video/:id" element={<VideoPlayer />} />
+                        <Route path="/channel/:id" element={<Channel />} />
+                        <Route path="/upload" element={<Upload />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/search" element={<Search />} />
+                        <Route path="/library" element={<Library />} />
+                        <Route path="/playlists" element={<Playlists />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/create-channel" element={<CreateChannel />} />
+                        <Route path="/channel-management" element={<ChannelManagement />} />
+                        <Route path="/channel/:id/analytics" element={<ChannelAnalytics />} />
+                        <Route path="/offline" element={<OfflinePage />} />
+                      </Routes>
+                    </Box>
+                    <MobileBottomNav />
+                    <PWAInstallPrompt />
+                    <PWAStatusIndicator />
+                  </div>
+                </Router>
+              </NotificationProvider>
+            </VideoProvider>
+          </AuthProvider>
+        </PWAProvider>
+      </ErrorBoundary>
     </ThemeProvider>
   );
 }

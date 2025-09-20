@@ -1,0 +1,221 @@
+/* Wrapper for relative positioning */
+.navbar-wrapper {
+  position: relative;
+}
+
+/* Navbar container (fixed on top) */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  background-color: #f72323;
+  color: #fff;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo a {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Desktop search bar */
+.navbar-search {
+  flex: 1;
+  display: flex;
+  max-width: 500px;
+  margin: 0 1rem;
+}
+
+.navbar-search input {
+  flex: 1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 2px 0 0 2px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.navbar-search button {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 2px 2px 0;
+  border: none;
+  background-color: #e62e2e;
+  color: #fff;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+/* Right section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-right button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.music-btn {
+  font-weight: bold;
+}
+
+/* Mobile search overlay */
+.mobile-search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.mobile-search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.mobile-search-form input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.mobile-search-form button {
+  font-size: 1.3rem;
+  background: #e62e2e;
+  color: #fff;
+  border: none;
+  padding: 0 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.close-overlay {
+  background: none;
+  color: #000;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* Search recommendations */
+.search-recommendations p {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+/* Right Sidebar (below navbar, not covering content) */
+.right-sidebar {
+  position: absolute; /* below navbar */
+  top: 56px; /* below navbar height */
+  right: -250px; /* hidden by default */
+  width: 250px;
+  height: calc(100% - 56px); /* remaining page height */
+  background-color: #a48383;
+  color: #fff;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  z-index: 90;
+  padding: 1rem;
+}
+
+.right-sidebar.open {
+  right: 0; /* slide in */
+}
+
+.close-sidebar {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin: 1rem 0;
+}
+
+.sidebar-menu li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sidebar-menu li a:hover {
+  color: #ffd700;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .navbar-search {
+    display: none; /* hide desktop search */
+  }
+
+  .mobile-search-btn {
+    display: block; /* show mobile search icon */
+  }
+
+  .navbar-right .music-btn,
+  .navbar-right .notifications,
+  .navbar-right .login-btn {
+    display: none; /* hide other buttons in mobile */
+  }
+
+  .right-sidebar {
+    width: 70%; /* mobile sidebar smaller than full screen */
+  }
+}

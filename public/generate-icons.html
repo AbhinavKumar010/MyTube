@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate PWA Icons</title>
+</head>
+<body>
+    <h1>PWA Icon Generator</h1>
+    <p>Open this file in a browser and the icons will be generated and downloaded automatically.</p>
+    
+    <script>
+        function createIcon(size, filename) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Red background
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(0, 0, size, size);
+            
+            // White play button
+            ctx.fillStyle = '#ffffff';
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const playSize = size * 0.3;
+            
+            ctx.beginPath();
+            ctx.moveTo(centerX - playSize/3, centerY - playSize/2);
+            ctx.lineTo(centerX - playSize/3, centerY + playSize/2);
+            ctx.lineTo(centerX + playSize/2, centerY);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Download
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        // Generate icons when page loads
+        window.onload = function() {
+            createIcon(192, 'pwa-192x192.png');
+            createIcon(512, 'pwa-512x512.png');
+            createIcon(180, 'apple-touch-icon.png');
+            alert('Icons generated! Check your downloads folder.');
+        };
+    </script>
+</body>
+</html>

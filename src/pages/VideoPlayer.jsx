@@ -6,8 +6,6 @@ import {
   Button,
   Avatar,
   Chip,
-  Divider,
-  TextField,
   CircularProgress,
   Grid,
   Paper
@@ -17,8 +15,7 @@ import {
   ThumbDown as ThumbDownIcon,
   Share as ShareIcon,
   PlaylistAdd as PlaylistAddIcon,
-  MoreVert as MoreVertIcon,
-  Send as SendIcon
+  MoreVert as MoreVertIcon
 } from '@mui/icons-material';
 import EnhancedVideoPlayer from '../components/EnhancedVideoPlayer';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -32,6 +29,7 @@ const VideoPlayer = () => {
   const navigate = useNavigate();
   const { currentVideo, fetchVideo, likeVideo, dislikeVideo, subscribeToChannel, videos } = useVideo();
   const { user, isAuthenticated } = useAuth();
+
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -41,83 +39,63 @@ const VideoPlayer = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      fetchVideo(id).then((video) => {
-        if (video) {
-          setLikeCount(video.likeCount);
-          setDislikeCount(video.dislikeCount);
-          setSubscriberCount(video.uploader?.subscriberCount || 0);
-        }
-        setLoading(false);
-      });
-    }
+    const loadVideo = async () => {
+      if (!id) return;
+      setLoading(true);
+      const video = await fetchVideo(id);
+      if (video) {
+        setLikeCount(video.likeCount || 0);
+        setDislikeCount(video.dislikeCount || 0);
+        setSubscriberCount(video.uploader?.subscriberCount || 0);
+        setIsLiked(video.isLikedByUser || false);
+        setIsDisliked(video.isDislikedByUser || false);
+        setIsSubscribed(video.isSubscribedByUser || false);
+      }
+      setLoading(false);
+    };
+    loadVideo();
   }, [id, fetchVideo]);
 
   const handleLike = async () => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
-
-    try {
-      const result = await likeVideo(id);
-      if (result) {
-        setIsLiked(result.isLiked);
-        setLikeCount(result.likeCount);
-        if (result.isLiked && isDisliked) {
-          setIsDisliked(false);
-          setDislikeCount(result.dislikeCount);
-        }
+    if (!isAuthenticated) return navigate('/login');
+    if (isLiked) return; // prevent double like
+    const result = await likeVideo(id);
+    if (result) {
+      setIsLiked(result.isLiked);
+      setLikeCount(result.likeCount);
+      if (isDisliked) {
+        setIsDisliked(false);
+        setDislikeCount(result.dislikeCount);
       }
-    } catch (error) {
-      console.error('Error liking video:', error);
     }
   };
 
   const handleDislike = async () => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
-
-    try {
-      const result = await dislikeVideo(id);
-      if (result) {
-        setIsDisliked(result.isDisliked);
-        setDislikeCount(result.dislikeCount);
-        if (result.isDisliked && isLiked) {
-          setIsLiked(false);
-          setLikeCount(result.likeCount);
-        }
+    if (!isAuthenticated) return navigate('/login');
+    if (isDisliked) return; // prevent double dislike
+    const result = await dislikeVideo(id);
+    if (result) {
+      setIsDisliked(result.isDisliked);
+      setDislikeCount(result.dislikeCount);
+      if (isLiked) {
+        setIsLiked(false);
+        setLikeCount(result.likeCount);
       }
-    } catch (error) {
-      console.error('Error disliking video:', error);
     }
   };
 
   const handleSubscribe = async () => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
-
-    try {
-      const result = await subscribeToChannel(currentVideo.uploader._id);
-      if (result) {
-        setIsSubscribed(result.isSubscribed);
-        setSubscriberCount(result.subscriberCount);
-      }
-    } catch (error) {
-      console.error('Error subscribing:', error);
+    if (!isAuthenticated) return navigate('/login');
+    const result = await subscribeToChannel(currentVideo.uploader._id);
+    if (result) {
+      setIsSubscribed(result.isSubscribed);
+      setSubscriberCount(result.subscriberCount);
     }
   };
 
   const formatViewCount = (count) => {
-    if (count >= 1000000) {
-      return `${(count / 1000000).toFixed(1)}M views`;
-    } else if (count >= 1000) {
-      return `${(count / 1000).toFixed(1)}K views`;
-    }
+    if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M views`;
+    if (count >= 1000) return `${(count / 1000).toFixed(1)}K views`;
     return `${count} views`;
   };
 
@@ -140,11 +118,7 @@ const VideoPlayer = () => {
   }
 
   return (
-    <Box sx={{ 
-      p: { xs: 2, sm: 3, md: 4 },
-      backgroundColor: '#f9f9f9',
-      minHeight: '100vh'
-    }}>
+    <Box sx={{ p: { xs: 2, sm: 3, md: 4 }, backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
       <Grid container spacing={{ xs: 2, md: 3 }}>
         {/* Main Video Section */}
         <Grid item xs={12} lg={8}>
@@ -152,15 +126,10 @@ const VideoPlayer = () => {
           <Box sx={{ mb: 2 }}>
             <EnhancedVideoPlayer
               url={currentVideo.videoUrl}
-              playing={false}
+              playing={false} // let user start
               volume={0.8}
               playbackRate={1}
               onPlayPause={(playing) => console.log('Playing:', playing)}
-              onVolumeChange={(volume) => console.log('Volume:', volume)}
-              onPlaybackRateChange={(rate) => console.log('Rate:', rate)}
-              onProgress={(state) => console.log('Progress:', state)}
-              onDuration={(duration) => console.log('Duration:', duration)}
-              onEnded={() => console.log('Video ended')}
             />
           </Box>
 
@@ -169,25 +138,20 @@ const VideoPlayer = () => {
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, fontSize: { xs: '1.2rem', sm: '1.5rem' } }}>
               {currentVideo.title}
             </Typography>
-            
-            <Box sx={{ 
-              display: 'flex', 
+
+            <Box sx={{
+              display: 'flex',
               flexDirection: { xs: 'column', sm: 'row' },
               alignItems: { xs: 'flex-start', sm: 'center' },
-              justifyContent: 'space-between', 
+              justifyContent: 'space-between',
               mb: 2,
               gap: 1
             }}>
               <Typography variant="body2" color="text.secondary">
                 {formatViewCount(currentVideo.views)} • {new Date(currentVideo.createdAt).toLocaleDateString()}
               </Typography>
-              
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: { xs: 0.5, sm: 1 },
-                flexWrap: 'wrap'
-              }}>
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 }, flexWrap: 'wrap' }}>
                 <Button
                   startIcon={<ThumbUpIcon />}
                   onClick={handleLike}
@@ -208,25 +172,9 @@ const VideoPlayer = () => {
                 >
                   {dislikeCount}
                 </Button>
-                <Button
-                  startIcon={<ShareIcon />}
-                  variant="outlined"
-                  size="small"
-                  sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
-                >
-                  Share
-                </Button>
-                <Button
-                  startIcon={<PlaylistAddIcon />}
-                  variant="outlined"
-                  size="small"
-                  sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
-                >
-                  Save
-                </Button>
-                <IconButton size="small">
-                  <MoreVertIcon />
-                </IconButton>
+                <Button startIcon={<ShareIcon />} variant="outlined" size="small" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>Share</Button>
+                <Button startIcon={<PlaylistAddIcon />} variant="outlined" size="small" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>Save</Button>
+                <IconButton size="small"><MoreVertIcon /></IconButton>
               </Box>
             </Box>
           </Box>
@@ -235,19 +183,14 @@ const VideoPlayer = () => {
           <Paper sx={{ p: 2, mb: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar
-                  src={currentVideo.uploader?.profilePicture}
-                  sx={{ width: 48, height: 48 }}
-                >
+                <Avatar src={currentVideo.uploader?.profilePicture} sx={{ width: 48, height: 48 }}>
                   {currentVideo.uploader?.username?.charAt(0).toUpperCase()}
                 </Avatar>
                 <Box>
                   <Typography variant="h6" sx={{ fontWeight: 500 }}>
                     {currentVideo.uploader?.channelName || currentVideo.uploader?.username}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {subscriberCount} subscribers
-                  </Typography>
+                  <Typography variant="body2" color="text.secondary">{subscriberCount} subscribers</Typography>
                 </Box>
               </Box>
               <Button
@@ -263,18 +206,11 @@ const VideoPlayer = () => {
 
           {/* Video Description */}
           <Paper sx={{ p: 2, mb: 2 }}>
-            <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
-              {currentVideo.description}
-            </Typography>
-            {currentVideo.tags && currentVideo.tags.length > 0 && (
+            <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>{currentVideo.description}</Typography>
+            {currentVideo.tags?.length > 0 && (
               <Box sx={{ mt: 2 }}>
                 {currentVideo.tags.map((tag, index) => (
-                  <Chip
-                    key={index}
-                    label={`#${tag}`}
-                    size="small"
-                    sx={{ mr: 1, mb: 1 }}
-                  />
+                  <Chip key={index} label={`#${tag}`} size="small" sx={{ mr: 1, mb: 1 }} />
                 ))}
               </Box>
             )}
@@ -286,9 +222,7 @@ const VideoPlayer = () => {
 
         {/* Sidebar */}
         <Grid item xs={12} lg={4}>
-          <Typography variant="h6" gutterBottom>
-            Recommended Videos
-          </Typography>
+          <Typography variant="h6" gutterBottom>Recommended Videos</Typography>
           {videos.slice(0, 5).map((video) => (
             <Box key={video._id} sx={{ mb: 2 }}>
               <VideoCard video={video} />

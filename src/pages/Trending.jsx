@@ -14,9 +14,10 @@ import { useVideo } from '../contexts/VideoContext';
 import VideoCard from '../components/VideoCard';
 
 const Trending = () => {
-  const { videos, loading, fetchVideos } = useVideo();
+  const { fetchVideos, loading } = useVideo();
   const [activeTab, setActiveTab] = useState(0);
   const [trendingVideos, setTrendingVideos] = useState([]);
+  const [error, setError] = useState('');
 
   const categories = [
     { label: 'Now', value: 'now' },
@@ -32,14 +33,33 @@ const Trending = () => {
   }, [activeTab]);
 
   const fetchTrendingVideos = async () => {
+    setError('');
     const category = categories[activeTab].value;
-    const result = await fetchVideos({
-      category: category === 'now' ? '' : category,
-      sortBy: 'views',
-      page: 1,
-      limit: 20
-    });
-    setTrendingVideos(result.videos);
+
+    try {
+      const result = await fetchVideos({
+        category: category === 'now' ? '' : category,
+        sortBy: 'views',
+        page: 1,
+        limit: 20
+      });
+
+      // Safely access videos
+      if (result?.videos) {
+        setTrendingVideos(result.videos);
+      } else {
+        setTrendingVideos([]);
+        setError('No trending videos found.');
+      }
+    } catch (err) {
+      console.error('Error fetching trending videos:', err);
+      if (err.response?.status === 429) {
+        setError('Too many requests! Please try again later.');
+      } else {
+        setError('Failed to load trending videos.');
+      }
+      setTrendingVideos([]);
+    }
   };
 
   const handleTabChange = (event, newValue) => {
@@ -59,15 +79,18 @@ const Trending = () => {
       <Container maxWidth="xl" sx={{ px: { xs: 0, sm: 2 } }}>
         {/* Header */}
         <Box sx={{ mb: 3 }}>
-          <Typography variant="h4" gutterBottom sx={{ 
-            fontWeight: 'bold',
-            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' }
-          }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ fontWeight: 'bold', fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}
+          >
             Trending
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{
-            fontSize: { xs: '0.9rem', sm: '1rem' }
-          }}>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}
+          >
             The most popular videos on YouTube right now
           </Typography>
         </Box>
@@ -88,21 +111,22 @@ const Trending = () => {
                 mr: { xs: 0.5, sm: 1 },
                 borderRadius: '20px',
                 fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                '&:hover': {
-                  backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                },
+                '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' },
               },
             }}
           >
             {categories.map((category, index) => (
-              <Tab
-                key={category.value}
-                label={category.label}
-                value={index}
-              />
+              <Tab key={category.value} label={category.label} value={index} />
             ))}
           </Tabs>
         </Paper>
+
+        {/* Error Message */}
+        {error && (
+          <Box sx={{ textAlign: 'center', py: 4 }}>
+            <Typography color="error">{error}</Typography>
+          </Box>
+        )}
 
         {/* Trending Videos Grid */}
         <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -131,7 +155,8 @@ const Trending = () => {
           ))}
         </Grid>
 
-        {trendingVideos.length === 0 && !loading && (
+        {/* Empty State */}
+        {trendingVideos.length === 0 && !loading && !error && (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography variant="h6" color="text.secondary" gutterBottom>
               No trending videos found

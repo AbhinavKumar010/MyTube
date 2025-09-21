@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -16,7 +16,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
-  // Configure axios defaults
+  // Ref to prevent multiple simultaneous auth requests
+  const checkingAuthRef = useRef(false);
+
+  // Configure axios Authorization header whenever token changes
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -28,17 +31,27 @@ export const AuthProvider = ({ children }) => {
   // Check if user is logged in on app start
   useEffect(() => {
     const checkAuth = async () => {
-      if (token) {
-        try {
-          const response = await axios.get('/api/auth/me');
-          setUser(response.data.user);
-        } catch (error) {
-          console.error('Auth check failed:', error);
-          localStorage.removeItem('token');
-          setToken(null);
-        }
+      if (checkingAuthRef.current) return; // prevent duplicate requests
+      checkingAuthRef.current = true;
+
+      if (!token) {
+        setLoading(false);
+        checkingAuthRef.current = false;
+        return;
       }
-      setLoading(false);
+
+      try {
+        const response = await axios.get('/api/auth/me');
+        setUser(response.data.user);
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        localStorage.removeItem('token');
+        setToken(null);
+        setUser(null);
+      } finally {
+        setLoading(false);
+        checkingAuthRef.current = false;
+      }
     };
 
     checkAuth();
@@ -48,38 +61,34 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/login', { email, password });
       const { token: newToken, user: userData } = response.data;
-      
+
       localStorage.setItem('token', newToken);
       setToken(newToken);
       setUser(userData);
-      
+
       return { success: true };
     } catch (error) {
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed'
+        message: error.response?.data?.message || 'Login failed',
       };
     }
   };
 
   const register = async (username, email, password) => {
     try {
-      const response = await axios.post('/api/auth/register', {
-        username,
-        email,
-        password
-      });
+      const response = await axios.post('/api/auth/register', { username, email, password });
       const { token: newToken, user: userData } = response.data;
-      
+
       localStorage.setItem('token', newToken);
       setToken(newToken);
       setUser(userData);
-      
+
       return { success: true };
     } catch (error) {
       return {
         success: false,
-        message: error.response?.data?.message || 'Registration failed'
+        message: error.response?.data?.message || 'Registration failed',
       };
     }
   };
@@ -98,7 +107,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        message: error.response?.data?.message || 'Profile update failed'
+        message: error.response?.data?.message || 'Profile update failed',
       };
     }
   };
@@ -110,12 +119,8 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateProfile,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

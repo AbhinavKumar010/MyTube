@@ -29,12 +29,14 @@ const Home = () => {
       <Container className="page-content" maxWidth="xl">
 
         {/* Category Filter */}
-        <Box className="category-filter">
+        <Box className="category-filter-wrapper">
           <Tabs
             value={selectedCategory}
             onChange={(e, value) => handleCategoryChange(value)}
             variant="scrollable"
             scrollButtons="auto"
+            allowScrollButtonsMobile
+            className="category-filter"
           >
             {categories.map((category) => (
               <Tab key={category} label={category} value={category} />

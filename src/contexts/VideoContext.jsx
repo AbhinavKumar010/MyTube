@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useRef } from 'react';
 import axios from 'axios';
+import { mockVideos } from '../data/mockVideos'; // import your mockVideos array
 
 const VideoContext = createContext();
 
@@ -11,31 +12,31 @@ export const useVideo = () => {
   return context;
 };
 
-export const VideoProvider = ({ children }) => {
+export const VideoProvider = ({ children, useMock = true }) => {
   const [videos, setVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
 
-  // Prevent duplicate simultaneous fetches
   const loadingRef = useRef(false);
 
-  // Fetch multiple videos
+  // -------------------- Fetch multiple videos --------------------
   const fetchVideos = async (params = {}) => {
     if (loadingRef.current) return;
     loadingRef.current = true;
     setLoading(true);
 
     try {
+      if (useMock) {
+        setVideos(mockVideos);
+        return { videos: mockVideos, total: mockVideos.length };
+      }
+
       const response = await axios.get('/api/videos', { params });
       setVideos(response.data.videos);
       return response.data;
     } catch (error) {
-      if (error.response?.status === 429) {
-        console.warn('Too many requests! Please wait a moment.');
-      } else {
-        console.error('Error fetching videos:', error);
-      }
+      console.error('Error fetching videos:', error);
       return { videos: [], total: 0 };
     } finally {
       loadingRef.current = false;
@@ -43,22 +44,24 @@ export const VideoProvider = ({ children }) => {
     }
   };
 
-  // Fetch a single video
+  // -------------------- Fetch single video --------------------
   const fetchVideo = async (id) => {
     if (!id || loadingRef.current) return null;
     loadingRef.current = true;
     setLoading(true);
 
     try {
+      if (useMock) {
+        const video = mockVideos.find(v => v._id === id) || null;
+        setCurrentVideo(video);
+        return video;
+      }
+
       const response = await axios.get(`/api/videos/${id}`);
       setCurrentVideo(response.data);
       return response.data;
     } catch (error) {
-      if (error.response?.status === 429) {
-        console.warn('Too many requests! Please wait a moment.');
-      } else {
-        console.error('Error fetching video:', error);
-      }
+      console.error('Error fetching video:', error);
       return null;
     } finally {
       loadingRef.current = false;
@@ -66,7 +69,7 @@ export const VideoProvider = ({ children }) => {
     }
   };
 
-  // Search videos with optional debounce (500ms)
+  // -------------------- Search Videos --------------------
   const searchVideos = async (query, params = {}) => {
     if (!query) return { videos: [], total: 0 };
     if (loadingRef.current) return;
@@ -75,17 +78,21 @@ export const VideoProvider = ({ children }) => {
     setLoading(true);
 
     try {
+      if (useMock) {
+        const results = mockVideos.filter(video =>
+          video.title.toLowerCase().includes(query.toLowerCase())
+        );
+        setSearchResults(results);
+        return { videos: results, total: results.length };
+      }
+
       const response = await axios.get('/api/videos', {
         params: { search: query, ...params },
       });
       setSearchResults(response.data.videos);
       return response.data;
     } catch (error) {
-      if (error.response?.status === 429) {
-        console.warn('Too many requests! Please wait a moment.');
-      } else {
-        console.error('Error searching videos:', error);
-      }
+      console.error('Error searching videos:', error);
       return { videos: [], total: 0 };
     } finally {
       loadingRef.current = false;
@@ -93,74 +100,96 @@ export const VideoProvider = ({ children }) => {
     }
   };
 
-  // Like a video (only update state after backend success)
+  // -------------------- Like Video --------------------
   const likeVideo = async (videoId) => {
     if (!videoId) return null;
+
+    if (useMock) {
+      // Update local mock video
+      const updatedVideos = videos.map(video => {
+        if (video._id === videoId) {
+          video.likeCount = (video.likeCount || 0) + 1;
+          video.isLikedByUser = true;
+        }
+        return video;
+      });
+      setVideos(updatedVideos);
+      const updatedVideo = updatedVideos.find(v => v._id === videoId);
+      setCurrentVideo(updatedVideo);
+      return {
+        isLiked: true,
+        likeCount: updatedVideo.likeCount,
+        isDisliked: false,
+        dislikeCount: updatedVideo.dislikeCount || 0
+      };
+    }
+
     try {
       const response = await axios.post(`/api/videos/${videoId}/like`);
-      return response.data; // contains {isLiked, likeCount, isDisliked, dislikeCount}
-    } catch (error) {
-      if (error.response?.status === 429) {
-        console.warn('Too many requests! Please wait a moment.');
-      } else {
-        console.error('Error liking video:', error);
-      }
-      return null;
-    }
-  };
-
-  // Dislike a video
-  const dislikeVideo = async (videoId) => {
-    if (!videoId) return null;
-    try {
-      const response = await axios.post(`/api/videos/${videoId}/dislike`);
-      return response.data; // contains {isDisliked, dislikeCount, isLiked, likeCount}
-    } catch (error) {
-      if (error.response?.status === 429) {
-        console.warn('Too many requests! Please wait a moment.');
-      } else {
-        console.error('Error disliking video:', error);
-      }
-      return null;
-    }
-  };
-
-  // Subscribe to a channel
-  const subscribeToChannel = async (channelId) => {
-    if (!channelId) return null;
-    try {
-      const response = await axios.post(`/api/subscriptions/${channelId}`);
-      return response.data; // contains {isSubscribed, subscriberCount}
-    } catch (error) {
-      if (error.response?.status === 429) {
-        console.warn('Too many requests! Please wait a moment.');
-      } else {
-        console.error('Error subscribing to channel:', error);
-      }
-      return null;
-    }
-  };
-
-  // Fetch subscription feed
-  const fetchSubscriptionFeed = async (params = {}) => {
-    if (loadingRef.current) return;
-    loadingRef.current = true;
-    setLoading(true);
-
-    try {
-      const response = await axios.get('/api/subscriptions/feed', { params });
-      setVideos(response.data.videos);
       return response.data;
     } catch (error) {
-      if (error.response?.status === 429) {
-        console.warn('Too many requests! Please wait a moment.');
-      } else {
-        console.error('Error fetching subscription feed:', error);
-      }
-      return { videos: [], total: 0 };
-    } finally {
-      loadingRef.current = false;
-      setLoading(false);
+      console.error('Error liking video:', error);
+      return null;
+    }
+  };
+
+  // -------------------- Dislike Video --------------------
+  const dislikeVideo = async (videoId) => {
+    if (!videoId) return null;
+
+    if (useMock) {
+      const updatedVideos = videos.map(video => {
+        if (video._id === videoId) {
+          video.dislikeCount = (video.dislikeCount || 0) + 1;
+          video.isDislikedByUser = true;
+        }
+        return video;
+      });
+      setVideos(updatedVideos);
+      const updatedVideo = updatedVideos.find(v => v._id === videoId);
+      setCurrentVideo(updatedVideo);
+      return {
+        isDisliked: true,
+        dislikeCount: updatedVideo.dislikeCount,
+        isLiked: false,
+        likeCount: updatedVideo.likeCount || 0
+      };
+    }
+
+    try {
+      const response = await axios.post(`/api/videos/${videoId}/dislike`);
+      return response.data;
+    } catch (error) {
+      console.error('Error disliking video:', error);
+      return null;
+    }
+  };
+
+  // -------------------- Subscribe to Channel --------------------
+  const subscribeToChannel = async (channelId) => {
+    if (!channelId) return null;
+
+    if (useMock) {
+      const updatedVideos = videos.map(video => {
+        if (video.uploader?._id === channelId) {
+          video.uploader.subscriberCount = (video.uploader.subscriberCount || 0) + 1;
+          video.isSubscribedByUser = true;
+        }
+        return video;
+      });
+      setVideos(updatedVideos);
+      return {
+        isSubscribed: true,
+        subscriberCount: updatedVideos.find(v => v.uploader?._id === channelId)?.uploader.subscriberCount || 0
+      };
+    }
+
+    try {
+      const response = await axios.post(`/api/subscriptions/${channelId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error subscribing to channel:', error);
+      return null;
     }
   };
 
@@ -175,7 +204,6 @@ export const VideoProvider = ({ children }) => {
     likeVideo,
     dislikeVideo,
     subscribeToChannel,
-    fetchSubscriptionFeed,
     setCurrentVideo,
   };
 

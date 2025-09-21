@@ -17,7 +17,7 @@
   max-width: 400px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  background-color: #fdfafa;
+  background-color: #ec3d3d;
 }
 
 /* Header */
@@ -72,7 +72,7 @@
 
 /* Error message */
 .login-error {
-  background-color: #f8d7da;
+  background-color: #ed2132;
   color: #842029;
   padding: 8px 12px;
   border-radius: 4px;
@@ -108,7 +108,7 @@
   max-width: 400px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  background-color: #fff;
+  background-color: #f83e3e;
 }
 
 .register-header h1 {

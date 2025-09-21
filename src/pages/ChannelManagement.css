@@ -1,0 +1,164 @@
+.channel-management {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 32px 0;
+}
+
+.cm-header {
+  margin-bottom: 32px;
+}
+
+.cm-header h4 {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.cm-subtitle {
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.cm-create-btn {
+  border-radius: 8px;
+}
+
+.cm-tabs {
+  margin-bottom: 24px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.channel-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.channel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.channel-banner {
+  height: 120px;
+  position: relative;
+  background-color: #1976d2;
+}
+
+.channel-banner-fallback {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.privacy-chip {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(255,255,255,0.9);
+}
+
+.channel-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.channel-avatar {
+  width: 50px;
+  height: 50px;
+  margin-right: 12px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.channel-name-block {
+  flex-grow: 1;
+}
+
+.channel-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: bold;
+}
+
+.verified-icon {
+  color: #1976d2;
+  font-size: 20px;
+}
+
+.category-chip {
+  margin-top: 4px;
+}
+
+.category-chip.tech { background-color: #1976d2; color: #fff; }
+.category-chip.gaming { background-color: #9c27b0; color: #fff; }
+.category-chip.music { background-color: #4caf50; color: #fff; }
+.category-chip.education { background-color: #0288d1; color: #fff; }
+.category-chip.entertainment { background-color: #ff9800; color: #fff; }
+
+.channel-description {
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #666;
+}
+
+.channel-stats {
+  margin-bottom: 16px;
+}
+
+.channel-stats .MuiTypography-h6 {
+  font-weight: bold;
+}
+
+.channel-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.no-channels {
+  padding: 48px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.no-channels-icon {
+  font-size: 64px;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+
+.cm-tab-content {
+  padding: 32px;
+  border-radius: 12px;
+}
+@media (max-width: 768px) {
+  .channel-management {
+    padding: 16px 0;
+  }
+  .cm-tab-content {
+    padding: 16px;
+  }
+  .channel-banner {
+    height: 80px;
+  }
+  .channel-avatar {
+    width: 40px;
+    height: 40px;
+  }
+}

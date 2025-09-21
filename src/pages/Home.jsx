@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Container,
-  CircularProgress,
-  Tabs,
-  Tab,
-  Typography,
-  Chip
-} from '@mui/material';
+import { Container, Tabs, Tab, Typography, Chip, CircularProgress } from '@mui/material';
 import VideoCard from '../components/VideoCard';
 import { useVideo } from '../contexts/VideoContext';
-import './Home.css'; // ✅ Import the CSS file
+import './Home.css';
 
 const categories = [
   'All', 'Gaming', 'Music', 'Education', 'Entertainment',
@@ -30,33 +22,28 @@ const Home = () => {
     });
   }, [selectedCategory, currentPage]);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+  const handleCategoryChange = (event, value) => {
+    setSelectedCategory(value);
     setCurrentPage(1);
   };
 
   if (loading && videos.length === 0) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="50vh"
-      >
+      <div className="home-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <CircularProgress color="primary" />
-      </Box>
+      </div>
     );
   }
 
   return (
-    <Box className="home-container">
+    <div className="home-container">
       <Container maxWidth="xl">
-        
+
         {/* Category Filter */}
-        <Box className="category-filter">
+        <div className="category-filter">
           <Tabs
             value={selectedCategory}
-            onChange={(e, value) => handleCategoryChange(value)}
+            onChange={handleCategoryChange}
             variant="scrollable"
             scrollButtons="auto"
           >
@@ -64,40 +51,40 @@ const Home = () => {
               <Tab key={category} label={category} value={category} />
             ))}
           </Tabs>
-        </Box>
+        </div>
 
         {/* Videos Grid */}
-        <Box className="videos-grid">
+        <div className="videos-grid">
           {videos.map(video => (
             <VideoCard key={video._id} video={video} />
           ))}
-        </Box>
+        </div>
 
-        {/* Load More Button */}
+        {/* Load More */}
         {videos.length > 0 && (
-          <Box display="flex" justifyContent="center" mt={5}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
             <Chip
               label="Load More"
               onClick={() => setCurrentPage(prev => prev + 1)}
               className="load-more-chip"
             />
-          </Box>
+          </div>
         )}
 
         {/* Empty State */}
         {!loading && videos.length === 0 && (
-          <Box className="empty-videos">
+          <div className="empty-videos">
             <Typography variant="h5" gutterBottom>
               No videos found
             </Typography>
             <Typography variant="body1">
               Try selecting a different category or check back later for new content.
             </Typography>
-          </Box>
+          </div>
         )}
 
       </Container>
-    </Box>
+    </div>
   );
 };
 

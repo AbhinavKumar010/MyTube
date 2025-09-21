@@ -8,7 +8,7 @@ nav {
   padding: 0 20px;
   height: 60px;
   background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(253, 71, 71, 0.427);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -24,7 +24,7 @@ nav {
 .navbar-left .logo a {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #1976d2;
+  color: #f23535;
   text-decoration: none;
 }
 
@@ -57,14 +57,14 @@ nav {
   border: 1px solid #ccc;
   border-left: none;
   border-radius: 0 25px 25px 0;
-  background-color: #1976d2;
+  background-color: #ee3326;
   color: #fff;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .navbar-search button:hover {
-  background-color: #115293;
+  background-color: #e73e2f;
 }
 
 /* Right side buttons */
@@ -94,7 +94,7 @@ nav {
   width: 250px;
   height: 100vh;
   background-color: #fff;
-  box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+  box-shadow: -2px 0 8px rgba(238, 37, 37, 0.971);
   transition: right 0.3s ease;
   z-index: 1500;
   padding: 20px;
@@ -133,7 +133,7 @@ nav {
 }
 
 .right-sidebar .sidebar-menu li a:hover {
-  color: #1976d2;
+  color: #d2352d;
 }
 
 /* ====== MOBILE SEARCH OVERLAY ====== */

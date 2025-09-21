@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { VideoProvider } from './contexts/VideoContext';
 import { PWAProvider } from './contexts/PWAContext';
+import { NotificationProvider } from './contexts/NotificationContext'; // ✅ Added
 
 import ErrorBoundary from './components/ErrorBoundary';
 import Navbar from './components/Navbar';
@@ -37,42 +38,44 @@ function App() {
       <CssBaseline />
       <ErrorBoundary>
         <AuthProvider>
-          <VideoProvider>
-            <PWAProvider>
-              <Router>
-                <Navbar />
-                <Box
-                  component="main"
-                  sx={{
-                    flexGrow: 1,
-                    pb: { xs: 8, md: 0 },
-                    minHeight: 'calc(100vh - 64px)',
-                  }}
-                >
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/trending" element={<Trending />} />
-                    <Route path="/subscriptions" element={<Subscriptions />} />
-                    <Route path="/video/:id" element={<VideoPlayer />} />
-                    <Route path="/channel/:id" element={<Channel />} />
-                    <Route path="/upload" element={<Upload />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/library" element={<Library />} />
-                    <Route path="/playlists" element={<Playlists />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/create-channel" element={<CreateChannel />} />
-                    <Route path="/channel-management" element={<ChannelManagement />} />
-                    <Route path="/channel/:id/analytics" element={<ChannelAnalytics />} />
-                  </Routes>
-                </Box>
-                <MobileBottomNav />
-                <PWAInstallPrompt />
-                <PWAStatusIndicator />
-              </Router>
-            </PWAProvider>
-          </VideoProvider>
+          <NotificationProvider> {/* ✅ Wrap here */}
+            <VideoProvider>
+              <PWAProvider>
+                <Router>
+                  <Navbar />
+                  <Box
+                    component="main"
+                    sx={{
+                      flexGrow: 1,
+                      pb: { xs: 8, md: 0 },
+                      minHeight: 'calc(100vh - 64px)',
+                    }}
+                  >
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/trending" element={<Trending />} />
+                      <Route path="/subscriptions" element={<Subscriptions />} />
+                      <Route path="/video/:id" element={<VideoPlayer />} />
+                      <Route path="/channel/:id" element={<Channel />} />
+                      <Route path="/upload" element={<Upload />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      <Route path="/search" element={<Search />} />
+                      <Route path="/library" element={<Library />} />
+                      <Route path="/playlists" element={<Playlists />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/create-channel" element={<CreateChannel />} />
+                      <Route path="/channel-management" element={<ChannelManagement />} />
+                      <Route path="/channel/:id/analytics" element={<ChannelAnalytics />} />
+                    </Routes>
+                  </Box>
+                  <MobileBottomNav />
+                  <PWAInstallPrompt />
+                  <PWAStatusIndicator />
+                </Router>
+              </PWAProvider>
+            </VideoProvider>
+          </NotificationProvider>
         </AuthProvider>
       </ErrorBoundary>
     </ThemeProvider>

@@ -1,70 +1,73 @@
-/* Home.css */
+/* ====================== MOBILE-FIRST HOME.CSS ====================== */
 
 /* Page container */
 .home-container {
   flex-grow: 1;
-  padding: 20px;
+  padding: 12px;
   background-color: #f5f5f7;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 /* Category filter box */
 .category-filter {
-  margin-bottom: 2rem;
-  padding: 16px;
+  margin-bottom: 16px;
+  padding: 12px;
   border-radius: 12px;
   background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
 }
 
-/* MUI Tabs */
+/* MUI Tabs styling */
 .category-filter .MuiTab-root {
   text-transform: none;
   min-width: auto;
-  padding: 10px 20px;
-  margin-right: 12px;
+  padding: 8px 16px;
+  margin-right: 8px;
   border-radius: 25px;
   background-color: #f0f0f0;
   color: #333;
   font-weight: 600;
+  font-size: 0.85rem;
   transition: all 0.3s ease;
 }
 
 /* Selected tab */
 .category-filter .Mui-selected {
-  background-color: #1976d2; /* MUI primary */
+  background-color: #ee453d;
   color: white;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
-/* Tab hover */
+/* Tab hover effect */
 .category-filter .MuiTab-root:hover {
   background-color: #e0e0e0;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* Videos Grid */
 .videos-grid {
   display: grid;
-  grid-gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 /* Load More Chip */
 .load-more-chip {
-  padding: 12px 32px !important;
-  font-size: 1rem !important;
+  padding: 10px 24px !important;
+  font-size: 0.9rem !important;
   font-weight: 500;
   border-radius: 30px !important;
-  background-color: #90caf9 !important; /* light primary */
+  background-color: #a7a8aa !important;
   color: #fff !important;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin: 16px auto !important;
 }
 
 .load-more-chip:hover {
-  background-color: #1976d2 !important; /* primary main */
+  background-color: #8a8f95 !important;
   color: #fff !important;
 }
 
@@ -74,79 +77,99 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 50vh;
+  min-height: 40vh;
   text-align: center;
   color: #666;
+  padding: 12px;
 }
 
-/* ====================== MOBILE VIEW ====================== */
-@media (max-width: 768px) {
+.empty-videos h5 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
 
-  /* Reduce page padding */
+.empty-videos p {
+  font-size: 0.9rem;
+}
+
+/* ====================== TABLET & ABOVE ====================== */
+@media (min-width: 600px) {
   .home-container {
-    padding: 12px;
+    padding: 20px;
   }
 
-  /* Category filter adjustments */
   .category-filter {
-    padding: 12px;
-    margin-bottom: 1.5rem;
+    padding: 16px;
+    margin-bottom: 24px;
   }
 
   .category-filter .MuiTab-root {
-    padding: 8px 16px;
-    margin-right: 8px;
-    font-size: 0.8rem;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    margin-right: 12px;
   }
 
-  /* Videos grid for mobile */
   .videos-grid {
     grid-gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
-  /* Load more chip */
   .load-more-chip {
-    padding: 10px 24px !important;
-    font-size: 0.9rem !important;
+    padding: 12px 32px !important;
+    font-size: 1rem !important;
   }
 }
 
-@media (max-width: 480px) {
-
-  /* Further reduce padding */
-  .home-container {
-    padding: 8px;
-  }
-
-  /* Tabs scrollable on very small screens */
-  .category-filter .MuiTabs-root {
-    overflow-x: auto;
+/* ====================== DESKTOP LARGE SCREENS ====================== */
+@media (min-width: 1024px) {
+  .videos-grid {
+    grid-gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 
   .category-filter .MuiTab-root {
-    padding: 6px 12px;
-    font-size: 0.75rem;
+    padding: 12px 24px;
+    font-size: 1rem;
+    margin-right: 16px;
   }
 
-  /* Videos grid for tiny screens */
-  .videos-grid {
-    grid-gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  }
-
-  /* Load more chip smaller */
   .load-more-chip {
-    padding: 8px 16px !important;
-    font-size: 0.8rem !important;
+    padding: 14px 36px !important;
+    font-size: 1.05rem !important;
+  }
+}
+
+/* ====================== DARK MODE ====================== */
+@media (prefers-color-scheme: dark) {
+  .home-container {
+    background-color: #121212;
+    color: #e0e0e0;
   }
 
-  /* Typography adjustments */
-  .empty-videos h5 {
-    font-size: 1.1rem;
+  .category-filter {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.08);
   }
 
-  .empty-videos p {
-    font-size: 0.9rem;
+  .category-filter .MuiTab-root {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+  }
+
+  .category-filter .Mui-selected {
+    background-color: #ee453d;
+    color: #000;
+  }
+
+  .videos-grid {
+    color: #e0e0e0;
+  }
+
+  .load-more-chip {
+    background-color: #a6a9ac !important;
+  }
+
+  .empty-videos {
+    color: #ccc;
   }
 }

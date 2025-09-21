@@ -21,14 +21,14 @@ export default function Navbar() {
     <>
       <nav>
         <div className="navbar-left">
-          <button
+          <button 
             className="hamburger"
             onClick={() => setSidebarOpen(true)} // open sidebar
           >
             ☰
           </button>
           <div className="logo">
-            <Link to="/">MyTube</Link>
+            <Link to="/">BharatTube</Link>
           </div>
         </div>
 
@@ -43,7 +43,7 @@ export default function Navbar() {
         </form>
 
         <div className="navbar-right">
-          <button className="music-btn">🎵 Music</button>
+          
           <button className="notifications">🔔</button>
           <button className="login-btn" onClick={handleLogin}>Login</button>
 

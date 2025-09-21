@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  BottomNavigation,
-  BottomNavigationAction,
-  Paper,
-  useTheme,
-  useMediaQuery
-} from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Paper, useTheme, useMediaQuery } from '@mui/material';
 import {
   Home as HomeIcon,
   Explore as ExploreIcon,
@@ -37,26 +31,13 @@ const MobileBottomNav = () => {
 
   const handleChange = (event, newValue) => {
     switch (newValue) {
-      case 0:
-        navigate('/');
-        break;
-      case 1:
-        navigate('/trending');
-        break;
-      case 2:
-        navigate('/subscriptions');
-        break;
-      case 3:
-        navigate('/library');
-        break;
-      case 4:
-        navigate(isAuthenticated ? '/channel-management' : '/login');
-        break;
-      case 5:
-        navigate(isAuthenticated ? '/profile' : '/login');
-        break;
-      default:
-        navigate('/');
+      case 0: navigate('/'); break;
+      case 1: navigate('/trending'); break;
+      case 2: navigate('/subscriptions'); break;
+      case 3: navigate('/library'); break;
+      case 4: navigate(isAuthenticated ? '/channel-management' : '/login'); break;
+      case 5: navigate(isAuthenticated ? '/profile' : '/login'); break;
+      default: navigate('/'); break;
     }
   };
 
@@ -85,40 +66,17 @@ const MobileBottomNav = () => {
           '& .MuiBottomNavigationAction-root': {
             minWidth: 'auto',
             padding: '6px 0',
-            '&.Mui-selected': {
-              color: 'primary.main',
-            },
+            '&.Mui-selected': { color: 'primary.main' },
           },
-          '& .MuiBottomNavigationAction-label': {
-            fontSize: '0.7rem',
-            marginTop: '4px',
-          },
+          '& .MuiBottomNavigationAction-label': { fontSize: '0.7rem', marginTop: '4px' },
         }}
       >
-        <BottomNavigationAction
-          label="Home"
-          icon={<HomeIcon />}
-        />
-        <BottomNavigationAction
-          label="Explore"
-          icon={<ExploreIcon />}
-        />
-        <BottomNavigationAction
-          label="Subscriptions"
-          icon={<SubscriptionsIcon />}
-        />
-        <BottomNavigationAction
-          label="Library"
-          icon={<LibraryIcon />}
-        />
-        <BottomNavigationAction
-          label="Channel"
-          icon={<VideoCallIcon />}
-        />
-        <BottomNavigationAction
-          label={isAuthenticated ? "Profile" : "Sign In"}
-          icon={<AccountIcon />}
-        />
+        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
+        <BottomNavigationAction label="Subscriptions" icon={<SubscriptionsIcon />} />
+        <BottomNavigationAction label="Library" icon={<LibraryIcon />} />
+        <BottomNavigationAction label="Channel" icon={<VideoCallIcon />} />
+        <BottomNavigationAction label={isAuthenticated ? "Profile" : "Sign In"} icon={<AccountIcon />} />
       </BottomNavigation>
     </Paper>
   );

@@ -3,7 +3,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 16px;
   height: 60px;
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(253, 71, 71, 0.2);
@@ -11,22 +11,23 @@ nav {
   top: 0;
   z-index: 1000;
   width: 100%;
-  overflow-x: hidden; /* prevent horizontal scroll */
+  overflow-x: hidden; /* stop horizontal scroll */
 }
 
 /* ====== LEFT SIDE ====== */
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0; /* allow shrink */
 }
 
 .navbar-left .logo a {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: bold;
   color: #f23535;
   text-decoration: none;
-  white-space: nowrap; /* prevent breaking */
+  white-space: nowrap; /* prevent wrapping */
 }
 
 .hamburger {
@@ -34,15 +35,16 @@ nav {
   background: none;
   border: none;
   cursor: pointer;
-  display: none; /* show only on mobile */
+  display: none; /* visible only in mobile */
 }
 
-/* ====== SEARCH FORM ====== */
+/* ====== SEARCH FORM (Desktop) ====== */
 .navbar-search {
   flex: 1;
   display: flex;
-  max-width: 500px;
-  margin: 0 20px;
+  max-width: 480px;
+  margin: 0 16px;
+  min-width: 0; /* prevents flex overflow */
 }
 
 .navbar-search input {
@@ -51,11 +53,11 @@ nav {
   border: 1px solid #ccc;
   border-radius: 25px 0 0 25px;
   outline: none;
-  min-width: 0; /* prevents overflow in flex container */
+  min-width: 0;
 }
 
 .navbar-search button {
-  padding: 8px 16px;
+  padding: 8px 14px;
   border: 1px solid #ccc;
   border-left: none;
   border-radius: 0 25px 25px 0;
@@ -63,27 +65,29 @@ nav {
   color: #fff;
   cursor: pointer;
   transition: background 0.3s ease;
+  flex-shrink: 0;
 }
 
 .navbar-search button:hover {
   background-color: #e73e2f;
 }
 
-/* ====== RIGHT SIDE BUTTONS ====== */
+/* ====== RIGHT SIDE ====== */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .navbar-right button {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
-/* Mobile search button */
+/* Mobile search icon */
 .mobile-search-btn {
   display: none;
 }
@@ -108,7 +112,7 @@ nav {
   right: 0;
 }
 
-.right-sidebar .close-sidebar {
+.close-sidebar {
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -116,17 +120,18 @@ nav {
   margin-bottom: 20px;
 }
 
-.right-sidebar .sidebar-menu {
+/* Sidebar links */
+.sidebar-menu {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.right-sidebar .sidebar-menu li {
+.sidebar-menu li {
   margin-bottom: 15px;
 }
 
-.right-sidebar .sidebar-menu li a {
+.sidebar-menu li a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
@@ -136,7 +141,7 @@ nav {
   transition: color 0.2s ease;
 }
 
-.right-sidebar .sidebar-menu li a:hover {
+.sidebar-menu li a:hover {
   color: #d2352d;
 }
 
@@ -157,14 +162,14 @@ nav {
 
 .mobile-search-form {
   display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
   margin-bottom: 20px;
-  flex-wrap: wrap;
 }
 
 .mobile-search-form input {
   flex: 1;
-  padding: 10px 15px;
+  padding: 10px 12px;
   border-radius: 25px;
   border: 1px solid #ccc;
   outline: none;
@@ -172,7 +177,7 @@ nav {
 }
 
 .mobile-search-form button {
-  padding: 10px 16px;
+  padding: 10px 14px;
   border-radius: 25px;
   border: none;
   background-color: #1976d2;
@@ -180,14 +185,14 @@ nav {
   cursor: pointer;
 }
 
-.mobile-search-form .close-overlay {
+.close-overlay {
   background: none;
   border: none;
   font-size: 1.5rem;
-  margin-left: 10px;
   cursor: pointer;
 }
 
+/* Recommendations */
 .search-recommendations {
   display: flex;
   flex-direction: column;
@@ -210,7 +215,7 @@ nav {
 /* ====== RESPONSIVE ====== */
 @media (max-width: 1024px) {
   .navbar-search {
-    max-width: 350px;
+    max-width: 360px;
     margin: 0 10px;
   }
 }
@@ -228,18 +233,22 @@ nav {
     display: block;
   }
 
+  .navbar-left .logo a {
+    font-size: 1.3rem;
+  }
+
   .navbar-right button {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
   nav {
-    padding: 0 12px;
+    padding: 0 10px;
   }
 
   .navbar-left .logo a {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .right-sidebar {
@@ -248,5 +257,9 @@ nav {
 
   .mobile-search-form input {
     font-size: 0.9rem;
+  }
+
+  .navbar-right {
+    gap: 6px;
   }
 }

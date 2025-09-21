@@ -1,0 +1,148 @@
+/* Container and Paper */
+.create-channel-container {
+  min-height: 100vh;
+  padding: 2rem 0;
+  background-color: #fefcfc;
+}
+
+.create-channel-paper {
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.create-channel-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.create-channel-header h5 {
+  font-weight: bold;
+  color: red;
+  flex-grow: 1;
+  margin: 0;
+}
+
+/* Cards */
+.create-channel-card {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  background-color: #fafafa;
+  border-radius: 0.5rem;
+}
+
+/* Avatar & Image Upload */
+.channel-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.channel-avatar-wrapper .MuiAvatar-root {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.channel-avatar-wrapper .MuiIconButton-root {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: red;
+  color: #fff;
+}
+
+.channel-avatar-wrapper .MuiIconButton-root:hover {
+  background-color: #b71c1c;
+}
+
+/* Banner Upload */
+.channel-banner-wrapper {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.channel-banner-wrapper img {
+  width: 100%;
+  max-height: 200px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.channel-banner-upload {
+  border: 2px dashed #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+.channel-banner-upload:hover {
+  border-color: #d32f2f;
+}
+
+/* Form Fields */
+.create-channel-card .MuiTextField-root,
+.create-channel-card .MuiFormControl-root {
+  margin-bottom: 1rem;
+}
+
+/* Tags */
+.channel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.create-channel-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .create-channel-paper {
+    padding: 1rem;
+  }
+  
+  .channel-avatar-wrapper .MuiAvatar-root {
+    width: 80px;
+    height: 80px;
+  }
+
+  .create-channel-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Default desktop styles */
+.create-channel-category {
+  width: 100%;
+  max-width: 400px; /* optional, limits wide dropdowns */
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+  .create-channel-category {
+    max-width: 100%; /* take full width */
+    font-size: 14px; /* smaller text on mobile */
+  }
+
+  /* Optional: make menu items easier to tap */
+  .create-channel-category .MuiMenuItem-root {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+

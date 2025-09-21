@@ -3,7 +3,6 @@ import { BottomNavigation, BottomNavigationAction, Paper, useTheme, useMediaQuer
 import {
   Home as HomeIcon,
   Explore as ExploreIcon,
-  Subscriptions as SubscriptionsIcon,
   VideoLibrary as LibraryIcon,
   AccountCircle as AccountIcon,
   VideoCall as VideoCallIcon
@@ -22,10 +21,9 @@ const MobileBottomNav = () => {
     const path = location.pathname;
     if (path === '/') return 0;
     if (path === '/trending') return 1;
-    if (path === '/subscriptions') return 2;
-    if (path === '/library') return 3;
-    if (path === '/channel-management' || path === '/create-channel') return 4;
-    if (path === '/profile' || path === '/login' || path === '/register') return 5;
+    if (path === '/library') return 2;
+    if (path === '/channel-management' || path === '/create-channel') return 3;
+    if (path === '/profile' || path === '/login' || path === '/register') return 4;
     return 0;
   };
 
@@ -33,10 +31,9 @@ const MobileBottomNav = () => {
     switch (newValue) {
       case 0: navigate('/'); break;
       case 1: navigate('/trending'); break;
-      case 2: navigate('/subscriptions'); break;
-      case 3: navigate('/library'); break;
-      case 4: navigate(isAuthenticated ? '/channel-management' : '/login'); break;
-      case 5: navigate(isAuthenticated ? '/profile' : '/login'); break;
+      case 2: navigate('/library'); break;
+      case 3: navigate(isAuthenticated ? '/channel-management' : '/login'); break;
+      case 4: navigate(isAuthenticated ? '/profile' : '/login'); break;
       default: navigate('/'); break;
     }
   };
@@ -73,7 +70,6 @@ const MobileBottomNav = () => {
       >
         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
-        <BottomNavigationAction label="Subscriptions" icon={<SubscriptionsIcon />} />
         <BottomNavigationAction label="Library" icon={<LibraryIcon />} />
         <BottomNavigationAction label="Channel" icon={<VideoCallIcon />} />
         <BottomNavigationAction label={isAuthenticated ? "Profile" : "Sign In"} icon={<AccountIcon />} />

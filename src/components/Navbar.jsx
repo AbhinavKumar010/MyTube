@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Search from "../pages/Search"; // Your existing Search component
+import SearchIcon from "@mui/icons-material/Search"; // Real search icon
 import "./Navbar.css";
 
 export default function Navbar() {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Right sidebar
-  const [searchTerm, setSearchTerm] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    alert(`Searching for "${searchTerm}"`);
+  const handleSearch = (term) => {
+    if (term?.trim()) {
+      navigate(`/search?q=${encodeURIComponent(term)}`);
+      setMobileSearchOpen(false); // close mobile overlay after search
+    }
   };
 
   const handleLogin = () => {
@@ -21,10 +24,7 @@ export default function Navbar() {
     <>
       <nav>
         <div className="navbar-left">
-          <button 
-            className="hamburger"
-            onClick={() => setSidebarOpen(true)} // open sidebar
-          >
+          <button className="hamburger" onClick={() => setSidebarOpen(true)}>
             ☰
           </button>
           <div className="logo">
@@ -32,26 +32,23 @@ export default function Navbar() {
           </div>
         </div>
 
-        <form className="navbar-search" onSubmit={handleSearch}>
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button type="submit">🔍</button>
-        </form>
+        {/* Desktop Search */}
+        <div className="navbar-search">
+          <Search onSearch={handleSearch} />
+        </div>
 
         <div className="navbar-right">
-          
           <button className="notifications">🔔</button>
-          <button className="login-btn" onClick={handleLogin}>Login</button>
+          <button className="login-btn" onClick={handleLogin}>
+            Login
+          </button>
 
+          {/* Mobile Search Button */}
           <button
             className="mobile-search-btn"
             onClick={() => setMobileSearchOpen(true)}
           >
-            🔍
+            <SearchIcon />
           </button>
         </div>
       </nav>
@@ -59,7 +56,9 @@ export default function Navbar() {
       {/* Right Sidebar */}
       {sidebarOpen && (
         <div className="right-sidebar open">
-          <button className="close-sidebar" onClick={() => setSidebarOpen(false)}>✖</button>
+          <button className="close-sidebar" onClick={() => setSidebarOpen(false)}>
+            ✖
+          </button>
           <ul className="sidebar-menu">
             <li><Link to="/music">🎵 Music</Link></li>
             <li><Link to="/films">🎬 Films</Link></li>
@@ -70,6 +69,7 @@ export default function Navbar() {
             <li><Link to="/sports">🏅 Sports</Link></li>
             <li><Link to="/courses">📚 Courses</Link></li>
             <li><Link to="/fashion">💄 Fashion & Beauty</Link></li>
+            <li><Link to="/subscriptions">🔔 Subscriptions</Link></li>
           </ul>
         </div>
       )}
@@ -77,27 +77,21 @@ export default function Navbar() {
       {/* Mobile Search Overlay */}
       {mobileSearchOpen && (
         <div className="mobile-search-overlay">
-          <form className="mobile-search-form" onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              autoFocus
-            />
-            <button type="submit">🔍</button>
-            <button
-              type="button"
-              className="close-overlay"
-              onClick={() => setMobileSearchOpen(false)}
-            >
-              ✖
-            </button>
-          </form>
+          <Search
+            onSearch={handleSearch}
+            placeholder="Search..."
+          />
+          <button
+            type="button"
+            className="close-overlay"
+            onClick={() => setMobileSearchOpen(false)}
+          >
+            ✖
+          </button>
           <div className="search-recommendations">
-            <p>Recommendation 1</p>
-            <p>Recommendation 2</p>
-            <p>Recommendation 3</p>
+            <p onClick={() => handleSearch("Musics")}>Musics</p>
+            <p onClick={() => handleSearch("Comedies")}>Comedies</p>
+            <p onClick={() => handleSearch("Movies")}>Movies</p>
           </div>
         </div>
       )}

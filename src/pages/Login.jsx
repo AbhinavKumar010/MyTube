@@ -29,49 +29,58 @@ const Login = () => {
         <Box className="login-header">
           <Typography component="h1">Trilokaa▶</Typography>
           <Typography component="h2">Sign In</Typography>
-          <Typography component="p">Sign in to your account to continue</Typography>
+          <Typography component="p" sx={{ mb: 1}}>Sign in to your account to continue</Typography>
         </Box>
 
         {error && <Alert severity="error" className="login-error">{error}</Alert>}
+<form className="login-form" onSubmit={handleSubmit}>
 
-        <Box component="form" className="login-form" onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            autoComplete="email"
-            autoFocus
-             sx={{ marginBottom: "10px" }} 
-          />
+  <TextField
+    fullWidth
+    label="Email"
+    name="email"
+    type="email"
+    value={formData.email}
+    onChange={handleChange}
+    required
+    autoComplete="email"
+    autoFocus
+    sx={{ mb: 2 }}   // space below field
+  />
 
-          <TextField
-            fullWidth
-            label="Password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            autoComplete="current-password"
-          />
+  <TextField
+    fullWidth
+    label="Password"
+    name="password"
+    type="password"
+    value={formData.password}
+    onChange={handleChange}
+    required
+    autoComplete="current-password"
+    sx={{ mb: 3 }}   // more space before button
+  />
 
-          <Button type="submit" fullWidth disabled={loading}>
-            {loading ? <CircularProgress size={24} /> : 'Sign In'}
-          </Button>
+  <Button
+    type="submit"
+    fullWidth
+    disabled={loading}
+    variant="contained"
+    sx={{ py: 1.5, mb: 2 }}
+  >
+    {loading ? <CircularProgress size={24} /> : 'Sign In'}
+  </Button>
 
-          <Box className="login-footer">
-            <Typography>
-              Don't have an account?{' '}
-              <Link component={RouterLink} to="/register" underline="hover">
-                Sign up
-              </Link>
-            </Typography>
-          </Box>
-        </Box>
+  <Box className="login-footer" sx={{ textAlign: "center", mt: 1 }}>
+    <Typography fontSize="0.85rem">
+      Don't have an account?{' '}
+      <Link component={RouterLink} to="/register" underline="hover">
+        Sign up
+      </Link>
+    </Typography>
+  </Box>
+
+</form>
+
       </Paper>
     </Box>
   );

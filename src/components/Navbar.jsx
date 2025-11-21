@@ -28,7 +28,7 @@ export default function Navbar() {
             ☰
           </button>
           <div className="logo">
-            <Link to="/">BharatTube</Link>
+            <Link to="/">Trilokaa▶</Link>
           </div>
         </div>
 

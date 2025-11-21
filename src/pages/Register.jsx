@@ -53,7 +53,7 @@ const Register = () => {
     <div className="register-container">
       <div className="register-paper">
         <div className="register-header">
-          <h1>BharatTube</h1>
+          <h1>Trilokaa▶</h1>
           <h2>Sign Up</h2>
           <p>Create your account to get started</p>
         </div>

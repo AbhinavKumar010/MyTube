@@ -95,7 +95,7 @@ nav {
 /* ====== RIGHT SIDEBAR ====== */
 .right-sidebar {
   position: fixed;
-  top: 0;
+  top: 60px;
   right: -100%;
   width: 250px;
   max-width: 80%;
@@ -103,9 +103,10 @@ nav {
   background-color: #fff;
   box-shadow: -2px 0 8px rgba(238, 37, 37, 0.97);
   transition: right 0.3s ease;
-  z-index: 1500;
+  z-index: 1000;
   padding: 20px;
   overflow-y: auto;
+  
 }
 
 .right-sidebar.open {
@@ -118,6 +119,7 @@ nav {
   font-size: 1.5rem;
   cursor: pointer;
   margin-bottom: 20px;
+
 }
 
 /* Sidebar links */

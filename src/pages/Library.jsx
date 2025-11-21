@@ -69,11 +69,11 @@ const Library = () => {
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
             Keep track of your watch history, liked videos, and playlists
           </Typography>
-          <Button
+          <Button color="error"
             variant="contained"
             onClick={() => navigate('/login')}
             size="large"
-          >
+          > 
             Sign In
           </Button>
         </Paper>

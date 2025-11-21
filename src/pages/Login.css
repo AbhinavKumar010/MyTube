@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fbf8f8;
+  background-color: rgb(246, 247, 248);
   padding: 6px;
 }
 
@@ -42,19 +42,19 @@
 }
 
 /* Form */
-.login-form input {
+.login-form input  {
   width: 100%;
-  padding: 10px 12px;
-  margin: 8px 0;
+  padding: 12px;
+  margin-bottom: 20px; /* space between fields */
   font-size: 0.85rem;
   border-radius: 4px;
-  
   box-sizing: border-box;
 }
 
+
 .login-form button {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   margin: 16px 0;
   font-size: 0.9rem;
   font-weight: bold;
@@ -108,7 +108,7 @@
   max-width: 400px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  background-color: #f83e3e;
+  background-color: rgb(239, 244, 247);
 }
 
 .register-header h1 {
@@ -148,7 +148,7 @@
   font-size: 0.9rem;
   font-weight: bold;
   color: #fff;
-  background-color: #e64338;
+  background-color: #e14327;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -160,7 +160,7 @@
 }
 
 .register-error {
-  background-color: #f8d7da;
+  background-color: #e8eefe;
   color: #842029;
   padding: 8px 12px;
   border-radius: 4px;
@@ -241,3 +241,63 @@
     color: #842029 !important;
   }
 }
+
+
+/* ====================== MOBILE VIEW ====================== */
+@media (max-width: 480px) {
+  .login-container,
+  .register-container {
+    padding: 4px;
+  }
+
+  .login-paper,
+  .register-paper {
+    padding: 16px;
+    max-width: 90%;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  /* Smaller Headers */
+  .login-header h1,
+  .register-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .login-header h2,
+  .register-header h2 {
+    font-size: 1rem;
+  }
+
+  /* Text size */
+  .login-header p,
+  .register-header p,
+  .login-footer,
+  .register-footer {
+    font-size: 0.75rem;
+  }
+
+  /* Inputs */
+  .login-form input,
+  .register-form input {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+    margin: 6px 0;
+  }
+
+  /* Buttons */
+  .login-form button,
+  .register-button {
+    font-size: 0.85rem;
+    padding: 10px;
+    margin: 12px 0;
+  }
+
+  /* Error Box */
+  .login-error,
+  .register-error {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+}
+

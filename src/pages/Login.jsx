@@ -27,7 +27,7 @@ const Login = () => {
     <Box className="login-container">
       <Paper className="login-paper">
         <Box className="login-header">
-          <Typography component="h1">BharatTube</Typography>
+          <Typography component="h1">Trilokaa▶</Typography>
           <Typography component="h2">Sign In</Typography>
           <Typography component="p">Sign in to your account to continue</Typography>
         </Box>
@@ -45,6 +45,7 @@ const Login = () => {
             required
             autoComplete="email"
             autoFocus
+             sx={{ marginBottom: "10px" }} 
           />
 
           <TextField

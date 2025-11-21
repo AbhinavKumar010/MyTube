@@ -11,13 +11,13 @@
 
 .video-element {
   width: 100%;
-  height: 480px;
+  height: 680px;
   border-radius: 8px;
   background: rgb(231, 49, 49);
 }
 
 .video-title {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
   margin: 0.5rem 0;
 }

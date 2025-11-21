@@ -23,6 +23,7 @@ import { useVideo } from '../contexts/VideoContext';
 import { useAuth } from '../contexts/AuthContext';
 import VideoCard from '../components/VideoCard';
 import CommentSection from '../components/CommentSection';
+import '../pages/VideoPlayer.css';
 
 const VideoPlayer = () => {
   const { id } = useParams();

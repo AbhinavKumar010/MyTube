@@ -134,7 +134,7 @@ const EnhancedVideoPlayer = ({
     <Box
       sx={{
         position: 'relative',
-        backgroundColor: '#000',
+        backgroundColor: '#e41212ff',
         borderRadius: 3,
         overflow: 'hidden',
         boxShadow: '0 8px 32px rgba(0,0,0,0.3)',

@@ -8,7 +8,9 @@ import {
   Chip,
   CircularProgress,
   Grid,
-  Paper
+  Paper,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import {
   ThumbUp as ThumbUpIcon,
@@ -30,6 +32,8 @@ const VideoPlayer = () => {
   const navigate = useNavigate();
   const { currentVideo, fetchVideo, likeVideo, dislikeVideo, subscribeToChannel, videos } = useVideo();
   const { user, isAuthenticated } = useAuth();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // true on small screens
 
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
@@ -39,7 +43,6 @@ const VideoPlayer = () => {
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 Scroll to top when video changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
@@ -157,17 +160,54 @@ const VideoPlayer = () => {
                 {formatViewCount(currentVideo.views)} • {new Date(currentVideo.createdAt).toLocaleDateString()}
               </Typography>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 }, flexWrap: 'wrap' }}>
-                <Button startIcon={<ThumbUpIcon />} onClick={handleLike} color={isLiked ? 'primary' : 'inherit'} variant={isLiked ? 'contained' : 'outlined'} size="small">
+              {/* Action Buttons */}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                flexWrap: 'wrap',
+                justifyContent: { xs: 'space-between', sm: 'flex-start' }
+              }}>
+                <Button
+                  startIcon={<ThumbUpIcon />}
+                  onClick={handleLike}
+                  color={isLiked ? 'primary' : 'inherit'}
+                  variant={isLiked ? 'contained' : 'outlined'}
+                  size={isMobile ? 'small' : 'medium'}
+                  sx={{ flex: isMobile ? 1 : 'unset' }}
+                >
                   {likeCount}
                 </Button>
 
-                <Button startIcon={<ThumbDownIcon />} onClick={handleDislike} color={isDisliked ? 'primary' : 'inherit'} variant={isDisliked ? 'contained' : 'outlined'} size="small">
+                <Button
+                  startIcon={<ThumbDownIcon />}
+                  onClick={handleDislike}
+                  color={isDisliked ? 'primary' : 'inherit'}
+                  variant={isDisliked ? 'contained' : 'outlined'}
+                  size={isMobile ? 'small' : 'medium'}
+                  sx={{ flex: isMobile ? 1 : 'unset' }}
+                >
                   {dislikeCount}
                 </Button>
 
-                <Button startIcon={<ShareIcon />} variant="outlined" size="small">Share</Button>
-                <Button startIcon={<PlaylistAddIcon />} variant="outlined" size="small">Save</Button>
+                <Button
+                  startIcon={<ShareIcon />}
+                  variant="outlined"
+                  size={isMobile ? 'small' : 'medium'}
+                  sx={{ flex: isMobile ? 1 : 'unset' }}
+                >
+                  Share
+                </Button>
+
+                <Button
+                  startIcon={<PlaylistAddIcon />}
+                  variant="outlined"
+                  size={isMobile ? 'small' : 'medium'}
+                  sx={{ flex: isMobile ? 1 : 'unset' }}
+                >
+                  Save
+                </Button>
+
                 <IconButton size="small"><MoreVertIcon /></IconButton>
               </Box>
             </Box>
@@ -175,7 +215,13 @@ const VideoPlayer = () => {
 
           {/* Channel Info */}
           <Paper sx={{ p: 2, mb: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'flex-start', sm: 'center' },
+              justifyContent: 'space-between',
+              gap: 1
+            }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Avatar src={currentVideo.uploader?.profilePicture} sx={{ width: 48, height: 48 }}>
                   {currentVideo.uploader?.username?.charAt(0).toUpperCase()}
@@ -192,7 +238,12 @@ const VideoPlayer = () => {
                 variant={isSubscribed ? 'outlined' : 'contained'}
                 color="primary"
                 onClick={handleSubscribe}
-                sx={{ textTransform: 'none' }}
+                sx={{
+                  textTransform: 'none',
+                  width: isMobile ? '100%' : 'auto',
+                  mt: isMobile ? 1 : 0
+                }}
+                size={isMobile ? 'small' : 'medium'}
               >
                 {isSubscribed ? 'Subscribed' : 'Subscribe'}
               </Button>

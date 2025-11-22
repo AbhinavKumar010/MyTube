@@ -5,8 +5,7 @@ import {
   Slider,
   Typography,
   Menu,
-  MenuItem,
-  Tooltip
+  MenuItem
 } from '@mui/material';
 import {
   PlayArrow as PlayIcon,
@@ -14,9 +13,7 @@ import {
   VolumeUp as VolumeUpIcon,
   VolumeOff as VolumeOffIcon,
   Fullscreen as FullscreenIcon,
-  Settings as SettingsIcon,
-  Speed as SpeedIcon,
-  ClosedCaption as CaptionIcon
+  Speed as SpeedIcon
 } from '@mui/icons-material';
 import ReactPlayer from 'react-player';
 
@@ -33,31 +30,42 @@ const EnhancedVideoPlayer = ({
   onPlaybackRateChange
 }) => {
   const playerRef = useRef(null);
+  const hideTimerRef = useRef(null);
+
   const [isPlaying, setIsPlaying] = useState(playing);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volumeLevel, setVolumeLevel] = useState(volume);
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
-  const [settingsAnchor, setSettingsAnchor] = useState(null);
   const [speedAnchor, setSpeedAnchor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const playbackRates = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
-  // 🔥 Auto-hide controls
+  // 🔥 Auto-hide logic
   useEffect(() => {
-    if (!isPlaying) {
-      setShowControls(true);
-      return;
+    clearTimeout(hideTimerRef.current);
+
+    if (isPlaying) {
+      hideTimerRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
     }
 
-    const timer = setTimeout(() => {
-      setShowControls(false);
-    }, 3000);
+    return () => clearTimeout(hideTimerRef.current);
+  }, [isPlaying, currentTime]);
 
-    return () => clearTimeout(timer);
-  }, [currentTime, isPlaying]);
+  const handleShowControls = () => {
+    setShowControls(true);
+    clearTimeout(hideTimerRef.current);
+
+    if (isPlaying) {
+      hideTimerRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
+    }
+  };
 
   const handlePlayPause = () => {
     const newPlaying = !isPlaying;
@@ -105,22 +113,18 @@ const EnhancedVideoPlayer = ({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleShowControls = () => {
-    setShowControls(true);
-  };
-
   return (
     <Box
       sx={{
         position: "relative",
         width: "100%",
-        paddingTop: "56.25%", // Aspect ratio
+        paddingTop: "56.25%",
         background: "#000",
       }}
       onMouseMove={handleShowControls}
       onTouchStart={handleShowControls}
     >
-      {/* Video Player Layer */}
+      {/* VIDEO LAYER */}
       <Box
         sx={{
           position: "absolute",
@@ -147,24 +151,8 @@ const EnhancedVideoPlayer = ({
         />
       </Box>
 
-      {/* Loading Indicator */}
-      {isLoading && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            color: "white",
-          }}
-        >
-          <Typography variant="h6">Loading...</Typography>
-        </Box>
-      )}
-
-      {/* Controls Layer */}
+      {/* CONTROLS */}
       <Box
-        className="video-controls"
         sx={{
           position: "absolute",
           bottom: 0,
@@ -177,9 +165,8 @@ const EnhancedVideoPlayer = ({
           pointerEvents: showControls ? "auto" : "none",
         }}
       >
-
-        {/* Time + Progress Bar */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+        {/* TIME + PROGRESS BAR */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: -3 }}>
           <Typography sx={{ color: "white", width: "60px" }}>
             {formatTime(currentTime)}
           </Typography>
@@ -200,8 +187,8 @@ const EnhancedVideoPlayer = ({
           </Typography>
         </Box>
 
-        {/* Control Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        {/* CONTROL BUTTONS */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: -3 }}>
           <IconButton onClick={handlePlayPause} sx={{ color: "white" }}>
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </IconButton>
@@ -222,7 +209,7 @@ const EnhancedVideoPlayer = ({
         </Box>
       </Box>
 
-      {/* Speed Menu */}
+      {/* SPEED MENU */}
       <Menu
         anchorEl={speedAnchor}
         open={Boolean(speedAnchor)}

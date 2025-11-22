@@ -39,6 +39,11 @@ const VideoPlayer = () => {
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  // 🔥 Scroll to top when video changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
   useEffect(() => {
     const loadVideo = async () => {
       if (!id) return;
@@ -59,7 +64,7 @@ const VideoPlayer = () => {
 
   const handleLike = async () => {
     if (!isAuthenticated) return navigate('/login');
-    if (isLiked) return; // prevent double like
+    if (isLiked) return;
     const result = await likeVideo(id);
     if (result) {
       setIsLiked(result.isLiked);
@@ -73,7 +78,7 @@ const VideoPlayer = () => {
 
   const handleDislike = async () => {
     if (!isAuthenticated) return navigate('/login');
-    if (isDisliked) return; // prevent double dislike
+    if (isDisliked) return;
     const result = await dislikeVideo(id);
     if (result) {
       setIsDisliked(result.isDisliked);
@@ -121,13 +126,13 @@ const VideoPlayer = () => {
   return (
     <Box sx={{ p: { xs: 2, sm: 3, md: 4 }, backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
       <Grid container spacing={{ xs: 2, md: 3 }}>
+
         {/* Main Video Section */}
         <Grid item xs={12} lg={8}>
-          {/* Video Player */}
           <Box sx={{ mb: 2 }}>
             <EnhancedVideoPlayer
               url={currentVideo.videoUrl}
-              playing={false} // let user start
+              playing={false}
               volume={0.8}
               playbackRate={1}
               onPlayPause={(playing) => console.log('Playing:', playing)}
@@ -153,28 +158,16 @@ const VideoPlayer = () => {
               </Typography>
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 }, flexWrap: 'wrap' }}>
-                <Button
-                  startIcon={<ThumbUpIcon />}
-                  onClick={handleLike}
-                  color={isLiked ? 'primary' : 'inherit'}
-                  variant={isLiked ? 'contained' : 'outlined'}
-                  size="small"
-                  sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
-                >
+                <Button startIcon={<ThumbUpIcon />} onClick={handleLike} color={isLiked ? 'primary' : 'inherit'} variant={isLiked ? 'contained' : 'outlined'} size="small">
                   {likeCount}
                 </Button>
-                <Button
-                  startIcon={<ThumbDownIcon />}
-                  onClick={handleDislike}
-                  color={isDisliked ? 'primary' : 'inherit'}
-                  variant={isDisliked ? 'contained' : 'outlined'}
-                  size="small"
-                  sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
-                >
+
+                <Button startIcon={<ThumbDownIcon />} onClick={handleDislike} color={isDisliked ? 'primary' : 'inherit'} variant={isDisliked ? 'contained' : 'outlined'} size="small">
                   {dislikeCount}
                 </Button>
-                <Button startIcon={<ShareIcon />} variant="outlined" size="small" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>Share</Button>
-                <Button startIcon={<PlaylistAddIcon />} variant="outlined" size="small" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>Save</Button>
+
+                <Button startIcon={<ShareIcon />} variant="outlined" size="small">Share</Button>
+                <Button startIcon={<PlaylistAddIcon />} variant="outlined" size="small">Save</Button>
                 <IconButton size="small"><MoreVertIcon /></IconButton>
               </Box>
             </Box>
@@ -194,6 +187,7 @@ const VideoPlayer = () => {
                   <Typography variant="body2" color="text.secondary">{subscriberCount} subscribers</Typography>
                 </Box>
               </Box>
+
               <Button
                 variant={isSubscribed ? 'outlined' : 'contained'}
                 color="primary"
@@ -207,7 +201,10 @@ const VideoPlayer = () => {
 
           {/* Video Description */}
           <Paper sx={{ p: 2, mb: 2 }}>
-            <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>{currentVideo.description}</Typography>
+            <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
+              {currentVideo.description}
+            </Typography>
+
             {currentVideo.tags?.length > 0 && (
               <Box sx={{ mt: 2 }}>
                 {currentVideo.tags.map((tag, index) => (
@@ -219,17 +216,28 @@ const VideoPlayer = () => {
 
           {/* Comments */}
           <CommentSection videoId={id} />
+
         </Grid>
 
         {/* Sidebar */}
         <Grid item xs={12} lg={4}>
           <Typography variant="h6" gutterBottom>Recommended Videos</Typography>
+
           {videos.slice(0, 5).map((video) => (
             <Box key={video._id} sx={{ mb: 2 }}>
-              <VideoCard video={video} />
+              <div
+                onClick={() => {
+                  navigate(`/video/${video._id}`);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                <VideoCard video={video} />
+              </div>
             </Box>
           ))}
         </Grid>
+
       </Grid>
     </Box>
   );

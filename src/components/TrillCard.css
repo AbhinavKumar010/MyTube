@@ -1,13 +1,18 @@
+/* =============================
+🎬 TRILL CARD — BASE (DESKTOP)
+============================= */
+
 .tril-card {
-  width: 160px;
-  height: 280px;
-  margin-right: 12px;
+  width: 120px;    /* Smaller desktop width */
+  height: 160px;   /* Smaller desktop height */
+  margin-right: 10px;
   background: #000;
   border-radius: 12px;
   overflow: hidden;
   color: #fff;
   cursor: pointer;
   position: relative;
+  flex: 0 0 auto;
 }
 
 .tril-thumbnail {
@@ -18,78 +23,39 @@
 
 .tril-title {
   position: absolute;
-  bottom: 35px;
+  bottom: 20px;
   left: 8px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .tril-views {
   position: absolute;
-  bottom: 10px;
+  bottom: 6px;
   left: 8px;
-  font-size: 12px;
+  font-size: 10px;
   opacity: 0.8;
 }
 
 
-/* ────────────────────────────── */
-/* DEFAULT (Desktop / Tablet)     */
-/* ────────────────────────────── */
-
-.tril-card {
-  width: 160px;
-  height: 280px;
-  margin-right: 12px;
-  background: #000;
-  border-radius: 12px;
-  overflow: hidden;
-  color: #fff;
-  cursor: pointer;
-  position: relative;
-}
-
-.tril-thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tril-title {
-  position: absolute;
-  bottom: 35px;
-  left: 8px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.tril-views {
-  position: absolute;
-  bottom: 10px;
-  left: 8px;
-  font-size: 12px;
-  opacity: 0.8;
-}
-
-
-/* ────────────────────────────── */
-/* 📱 MOBILE VIEW RESPONSIVE      */
-/* ────────────────────────────── */
+/* =============================
+📱 MOBILE VIEW (SHORTER HEIGHT)
+============================= */
 @media (max-width: 600px) {
   .tril-card {
-    width: 120px;       /* smaller for mobile */
-    height: 220px;
+    width: 100px;   /* 🔥 Even smaller mobile width */
+    height: 130px;  /* 🔥 Even smaller mobile height */
     border-radius: 10px;
-    margin-right: 10px;
+    margin-right: 8px;
   }
 
   .tril-title {
-    font-size: 12px;
-    bottom: 28px;
+    font-size: 10px;
+    bottom: 14px;
   }
 
   .tril-views {
-    font-size: 10px;
-    bottom: 8px;
+    font-size: 9px;
+    bottom: 5px;
   }
 }

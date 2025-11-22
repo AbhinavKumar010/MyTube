@@ -74,8 +74,8 @@ const Home = () => {
             sx={{
               display: 'flex',
               overflowX: 'auto',
-              p: 1,
-              gap: 2,
+              p: 0.1,
+              gap: 0.1,
               whiteSpace: 'nowrap',
               scrollbarWidth: 'none'
             }}

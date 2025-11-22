@@ -21,22 +21,22 @@
 .category-filter-wrapper {
   overflow-x: auto;
   white-space: nowrap;
-  padding: 6px;
+  padding: 4px;
   scroll-behavior: smooth;
 }
 
 .category-filter .MuiTab-root {
   text-transform: none;
   padding: 8px 14px;
-  margin-right: 8px;
-  border-radius: 25px;
+  margin-right: 6px;
+  border-radius: 15px;
   background-color: #f0f0f0;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   flex-shrink: 0;
 }
 
 .category-filter .Mui-selected {
-  background-color: #ee453d;
+  background-color: #ee382e;
   color: #fff;
 }
 

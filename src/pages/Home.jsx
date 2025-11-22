@@ -7,7 +7,7 @@ import { mockVideos } from '../data/mockVideos';
 import { mockTrils } from '../data/mockTrills';
 import './Home.css';
 
-const categories = ['All', 'Gaming', 'Music', 'Education'];
+const categories = ['All', 'Gaming', 'Music', 'Education','Comedy', 'Sports', 'News', 'Technology', 'Lifestyle', 'Travel', 'Food'];
 
 const Home = () => {
   const { videos, loading, fetchVideos } = useVideo();
@@ -48,20 +48,24 @@ const Home = () => {
       <Container className="page-content" maxWidth="xl">
 
 
-        {/* Categories */}
-        <Paper sx={{ mb: 3, p: 1 }}>
-          <Tabs
-            value={selectedCategory}
-            onChange={(e, value) => handleCategoryChange(value)}
-            variant="scrollable"
-            scrollButtons="auto"
-            allowScrollButtonsMobile
-          >
-            {categories.map((category) => (
-              <Tab key={category} label={category} value={category} />
-            ))}
-          </Tabs>
-        </Paper>
+      {/* Categories */}
+<Paper sx={{ mb: 2, mt: 1, p: 0.5, bgcolor: '#f9f9f9' }} elevation={2} className="category-filter">
+  <Tabs
+    value={selectedCategory}
+    onChange={(e, value) => handleCategoryChange(value)}
+    variant="scrollable"
+    scrollButtons={false}        // ⛔ disables arrows
+    allowScrollButtonsMobile={false} // ⛔ no arrows on mobile
+    sx={{
+      "& .MuiTabs-scrollbarSize": { display: "none" } // hides scroll track
+    }}
+  >
+    {categories.map((category) => (
+      <Tab key={category} label={category} value={category} />
+    ))}
+  </Tabs>
+</Paper>
+
 
         
         {/* 🔥 TRIL (Shorts Section) */}
